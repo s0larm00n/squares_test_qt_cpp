@@ -19,7 +19,13 @@ namespace qttest {
 
     void MainWindow::handlePointerEvent(QGraphicsSceneMouseEvent *event) {
         if (event->type() == QEvent::GraphicsSceneMousePress) {
-            squareManager.addSquare(event->scenePos().x() - 50. / 2, event->scenePos().y() - 50. / 2, 50, 50);
+            double newSquareSize = std::min(width(), height()) / 10.;
+            SquareController *newSquare = squareManager.addSquare(
+                    event->scenePos().x() - newSquareSize / 2.,
+                    event->scenePos().y() - newSquareSize / 2.,
+                    newSquareSize
+            );
+            newSquare->ensureBorders(width(), height());
         }
     }
 

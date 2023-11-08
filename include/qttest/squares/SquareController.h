@@ -13,7 +13,7 @@ namespace qttest {
         QGraphicsScene *scene;
 
     public:
-        SquareController(QGraphicsScene *graphicsScene, double posX, double posY, double width, double height);
+        SquareController(QGraphicsScene *graphicsScene, double posX, double posY, double size);
         ~SquareController();
         QGraphicsRectItem *getGraphicsItem();
         bool containsPoint(double x, double y);

@@ -4,7 +4,7 @@ namespace qttest {
 
     SquareManager::SquareManager(QGraphicsScene *graphicsScene) : scene{graphicsScene} {}
 
-    const SquareController *SquareManager::getTopSquare() {
+    SquareController *SquareManager::getTopSquare() {
         if (squares.empty()) {
             return nullptr;
         }
@@ -21,7 +21,7 @@ namespace qttest {
         return -1;
     }
 
-    const SquareController *SquareManager::getSquareByLocation(double x, double y) {
+    SquareController *SquareManager::getSquareByLocation(double x, double y) {
         int collisionIndex = detectCollisionWith(x, y);
 
         if (collisionIndex < 0) {
@@ -39,8 +39,8 @@ namespace qttest {
         }
     }
 
-    const SquareController *SquareManager::addSquare(double posX, double posY, double width, double height) {
-        SquareController *newSquare = new SquareController{scene, posX, posY, width, height};
+    SquareController *SquareManager::addSquare(double posX, double posY, double size) {
+        SquareController *newSquare = new SquareController{scene, posX, posY, size};
         squares.push_back(newSquare);
         return newSquare;
     }

@@ -2,14 +2,8 @@
 
 namespace qttest {
 
-    SquareController::SquareController(
-            QGraphicsScene *graphicsScene,
-            double posX,
-            double posY,
-            double width,
-            double height
-    )
-        : graphicsItem{posX, posY, width, height}, scene{graphicsScene} {
+    SquareController::SquareController(QGraphicsScene *graphicsScene, double posX, double posY, double size)
+        : graphicsItem{posX, posY, size, size}, scene{graphicsScene} {
         graphicsItem.setBrush(getRandomColor());
         scene->addItem(&graphicsItem);
     }
@@ -33,17 +27,27 @@ namespace qttest {
     void SquareController::ensureBorders(double windowWidth, double windowHeight) {
         double itemWidth = graphicsItem.rect().width();
         double itemHeight = graphicsItem.rect().height();
-        if (graphicsItem.x() < 0) {
-            graphicsItem.setX(0);
+        if (graphicsItem.rect().x() < 0) {
+            graphicsItem.setRect(0, graphicsItem.rect().y(), graphicsItem.rect().width(), graphicsItem.rect().height());
         }
-        if (graphicsItem.x() + itemWidth > windowWidth) {
-            graphicsItem.setX(windowWidth - itemWidth);
+        if (graphicsItem.rect().x() + itemWidth > windowWidth) {
+            graphicsItem.setRect(
+                    windowWidth - itemWidth,
+                    graphicsItem.rect().y(),
+                    graphicsItem.rect().width(),
+                    graphicsItem.rect().height()
+            );
         }
-        if (graphicsItem.y() < 0) {
-            graphicsItem.setY(0);
+        if (graphicsItem.rect().y() < 0) {
+            graphicsItem.setRect(graphicsItem.rect().x(), 0, graphicsItem.rect().width(), graphicsItem.rect().height());
         }
-        if (graphicsItem.y() + itemHeight > windowHeight) {
-            graphicsItem.setY(windowHeight - itemHeight);
+        if (graphicsItem.rect().y() + itemHeight > windowHeight) {
+            graphicsItem.setRect(
+                    graphicsItem.rect().x(),
+                    windowHeight - itemHeight,
+                    graphicsItem.rect().width(),
+                    graphicsItem.rect().height()
+            );
         }
     }
 
