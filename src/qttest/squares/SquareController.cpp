@@ -51,4 +51,19 @@ namespace qttest {
         }
     }
 
+    void SquareController::switchHighlight(bool value) {
+        if (value) {
+            QPen whitePen(Qt::white);
+            whitePen.setWidth(5);
+            graphicsItem.setPen(whitePen);
+        } else {
+            QPen transparentPen(Qt::transparent);
+            graphicsItem.setPen(transparentPen);
+        }
+    }
+
+    void SquareController::setZIndex(int index) {
+        graphicsItem.setZValue(index);
+    }
+
 }// namespace qttest

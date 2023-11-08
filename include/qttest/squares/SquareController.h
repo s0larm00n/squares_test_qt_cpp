@@ -19,6 +19,8 @@ namespace qttest {
         bool containsPoint(double x, double y);
         void moveBy(double deltaX, double deltaY);
         void ensureBorders(double windowWidth, double windowHeight);
+        void switchHighlight(bool value);
+        void setZIndex(int index);
     };
 
 }// namespace qttest

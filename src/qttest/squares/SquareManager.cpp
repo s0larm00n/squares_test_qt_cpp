@@ -12,7 +12,7 @@ namespace qttest {
     }
 
     int SquareManager::detectCollisionWith(double x, double y) {
-        for (int i = 0; i < squares.size(); ++i) {
+        for (int i = squares.size() - 1; i >= 0; i--) {
             SquareController *square = squares[i];
             if (square->containsPoint(x, y)) {
                 return i;
@@ -30,6 +30,7 @@ namespace qttest {
 
         auto rotationIterator = squares.begin() + collisionIndex;
         std::rotate(rotationIterator, rotationIterator + 1, squares.end());
+        refreshZIndexes();
         return getTopSquare();
     }
 
@@ -41,8 +42,22 @@ namespace qttest {
 
     SquareController *SquareManager::addSquare(double posX, double posY, double size) {
         SquareController *newSquare = new SquareController{scene, posX, posY, size};
+        newSquare->setZIndex(squares.size());
         squares.push_back(newSquare);
         return newSquare;
+    }
+
+    void SquareManager::ensureBorders(double windowWidth, double windowHeight) {
+        for (SquareController *square: squares) {
+            square->ensureBorders(windowWidth, windowHeight);
+        }
+    }
+
+    void SquareManager::refreshZIndexes() {
+        for (int i = 0; i < squares.size(); i++) {
+            SquareController *square = squares[i];
+            square->setZIndex(i);
+        }
     }
 
 }// namespace qttest
