@@ -12,27 +12,28 @@ namespace qttest {
         scene->removeItem(&graphicsItem);
     }
 
-    QGraphicsRectItem *SquareController::getGraphicsItem() {
-        return &graphicsItem;
-    }
-
     bool SquareController::containsPoint(double x, double y) {
-        return graphicsItem.contains(QPointF{x, y});
+        return graphicsItem.rect().contains(QPointF{x, y});
     }
 
     void SquareController::moveBy(double deltaX, double deltaY) {
-        graphicsItem.moveBy(deltaX, deltaY);
+        graphicsItem.setRect(
+                graphicsItem.rect().x() + deltaX,
+                graphicsItem.rect().y() + deltaY,
+                graphicsItem.rect().width(),
+                graphicsItem.rect().height()
+        );
+        // TODO this produced random render and actual coordinates desynchronization - why?
+        //graphicsItem.moveBy(deltaX, deltaY);
     }
 
     void SquareController::ensureBorders(double windowWidth, double windowHeight) {
-        double itemWidth = graphicsItem.rect().width();
-        double itemHeight = graphicsItem.rect().height();
         if (graphicsItem.rect().x() < 0) {
             graphicsItem.setRect(0, graphicsItem.rect().y(), graphicsItem.rect().width(), graphicsItem.rect().height());
         }
-        if (graphicsItem.rect().x() + itemWidth > windowWidth) {
+        if (graphicsItem.rect().x() + graphicsItem.rect().width() > windowWidth) {
             graphicsItem.setRect(
-                    windowWidth - itemWidth,
+                    windowWidth - graphicsItem.rect().width(),
                     graphicsItem.rect().y(),
                     graphicsItem.rect().width(),
                     graphicsItem.rect().height()
@@ -41,10 +42,10 @@ namespace qttest {
         if (graphicsItem.rect().y() < 0) {
             graphicsItem.setRect(graphicsItem.rect().x(), 0, graphicsItem.rect().width(), graphicsItem.rect().height());
         }
-        if (graphicsItem.rect().y() + itemHeight > windowHeight) {
+        if (graphicsItem.rect().y() + graphicsItem.rect().height() > windowHeight) {
             graphicsItem.setRect(
                     graphicsItem.rect().x(),
-                    windowHeight - itemHeight,
+                    windowHeight - graphicsItem.rect().height(),
                     graphicsItem.rect().width(),
                     graphicsItem.rect().height()
             );
@@ -64,6 +65,12 @@ namespace qttest {
 
     void SquareController::setZIndex(int index) {
         graphicsItem.setZValue(index);
+    }
+
+    bool SquareController::canMoveFurther(double deltaX, double deltaY, double windowWidth, double windowHeight) {
+        return graphicsItem.rect().x() + deltaX >= 0 && graphicsItem.rect().y() + deltaY >= 0 &&
+               graphicsItem.rect().x() + graphicsItem.rect().width() + deltaX <= windowWidth &&
+               graphicsItem.rect().y() + graphicsItem.rect().height() + deltaY <= windowHeight;
     }
 
 }// namespace qttest

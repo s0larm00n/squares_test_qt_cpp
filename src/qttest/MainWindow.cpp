@@ -35,6 +35,13 @@ namespace qttest {
                 break;
             }
             case QEvent::GraphicsSceneMouseMove: {
+                if (focusedSquare != nullptr) {
+                    qreal deltaX = event->scenePos().x() - event->lastScenePos().x();
+                    qreal deltaY = event->scenePos().y() - event->lastScenePos().y();
+                    if (focusedSquare->canMoveFurther(deltaX, deltaY, width(), height())) {
+                        focusedSquare->moveBy(deltaX, deltaY);
+                    }
+                }
                 break;
             }
             case QEvent::GraphicsSceneMouseRelease: {

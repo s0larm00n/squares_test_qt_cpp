@@ -15,9 +15,9 @@ namespace qttest {
     public:
         SquareController(QGraphicsScene *graphicsScene, double posX, double posY, double size);
         ~SquareController();
-        QGraphicsRectItem *getGraphicsItem();
         bool containsPoint(double x, double y);
         void moveBy(double deltaX, double deltaY);
+        bool canMoveFurther(double deltaX, double deltaY, double windowWidth, double windowHeight);
         void ensureBorders(double windowWidth, double windowHeight);
         void switchHighlight(bool value);
         void setZIndex(int index);
