@@ -3,9 +3,14 @@
 namespace qttest {
 
     MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-        setCentralWidget(new QGraphicsView(&scene));
+        QGraphicsView *view = new QGraphicsView(&scene);
+        view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        setCentralWidget(view);
         updateSceneRect();
         connect(&scene, &EventListenerScene::pointerEvent, this, &MainWindow::handlePointerEvent);
+        setStyleSheet("background-color: black;");
+        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     }
 
     void MainWindow::resizeEvent(QResizeEvent *event) {
