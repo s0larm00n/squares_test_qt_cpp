@@ -28,9 +28,15 @@ namespace qttest {
             return nullptr;
         }
 
+        if (getTopSquare() != nullptr) {
+            getTopSquare()->switchHighlight(false);
+        }
         auto rotationIterator = squares.begin() + collisionIndex;
         std::rotate(rotationIterator, rotationIterator + 1, squares.end());
         refreshZIndexes();
+        if (getTopSquare() != nullptr) {
+            getTopSquare()->switchHighlight(true);
+        }
         return getTopSquare();
     }
 
@@ -43,7 +49,11 @@ namespace qttest {
     SquareController *SquareManager::addSquare(double posX, double posY, double size) {
         SquareController *newSquare = new SquareController{scene, posX, posY, size};
         newSquare->setZIndex(squares.size());
+        if (getTopSquare() != nullptr) {
+            getTopSquare()->switchHighlight(false);
+        }
         squares.push_back(newSquare);
+        getTopSquare()->switchHighlight(true);
         return newSquare;
     }
 

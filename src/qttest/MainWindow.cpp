@@ -36,7 +36,6 @@ namespace qttest {
                     );
                     focusedSquare->ensureBorders(width(), height());
                 }
-                focusedSquare->switchHighlight(true);
                 break;
             }
             case QEvent::GraphicsSceneMouseMove: {
@@ -50,9 +49,6 @@ namespace qttest {
                 break;
             }
             case QEvent::GraphicsSceneMouseRelease: {
-                if (focusedSquare != nullptr) {
-                    focusedSquare->switchHighlight(false);
-                }
                 focusedSquare = nullptr;
                 break;
             }
