@@ -26,30 +26,17 @@ namespace qttest {
     void MainWindow::handlePointerEvent(QGraphicsSceneMouseEvent *event) {
         switch (event->type()) {
             case QEvent::GraphicsSceneMousePress: {
-                focusedSquare = squareManager.getSquareByLocation(event->scenePos().x(), event->scenePos().y());
-                if (focusedSquare == nullptr) {
-                    double newSquareSize = std::min(width(), height()) / 10.;
-                    focusedSquare = squareManager.addSquare(
-                            event->scenePos().x() - newSquareSize / 2.,
-                            event->scenePos().y() - newSquareSize / 2.,
-                            newSquareSize
-                    );
-                    focusedSquare->ensureBorders(width(), height());
-                }
+                squareManager.onPointerDown(event->scenePos().x(), event->scenePos().y(), width(), height());
                 break;
             }
             case QEvent::GraphicsSceneMouseMove: {
-                if (focusedSquare != nullptr) {
-                    qreal deltaX = event->scenePos().x() - event->lastScenePos().x();
-                    qreal deltaY = event->scenePos().y() - event->lastScenePos().y();
-                    if (focusedSquare->canMoveFurther(deltaX, deltaY, width(), height())) {
-                        focusedSquare->moveBy(deltaX, deltaY);
-                    }
-                }
+                qreal deltaX = event->scenePos().x() - event->lastScenePos().x();
+                qreal deltaY = event->scenePos().y() - event->lastScenePos().y();
+                squareManager.onPointerMove(deltaX, deltaY, width(), height());
                 break;
             }
             case QEvent::GraphicsSceneMouseRelease: {
-                focusedSquare = nullptr;
+                squareManager.onPointerUp();
                 break;
             }
             default: {

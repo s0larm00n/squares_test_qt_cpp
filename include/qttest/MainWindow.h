@@ -17,7 +17,6 @@ namespace qttest {
         Q_OBJECT
         EventListenerScene scene{this};
         SquareManager squareManager{&scene};
-        SquareController *focusedSquare = nullptr;
 
     public:
         explicit MainWindow(QWidget *parent = nullptr);

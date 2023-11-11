@@ -70,4 +70,25 @@ namespace qttest {
         }
     }
 
+    void SquareManager::onPointerDown(float x, float y, double windowWidth, double windowHeight) {
+        focused = getSquareByLocation(x, y);
+        if (focused == nullptr) {
+            double newSquareSize = std::min(windowWidth, windowHeight) / 10.;
+            focused = addSquare(x - newSquareSize / 2., y - newSquareSize / 2., newSquareSize);
+            focused->ensureBorders(windowWidth, windowHeight);
+        }
+    }
+
+    void SquareManager::onPointerUp() {
+        focused = nullptr;
+    }
+
+    void SquareManager::onPointerMove(float deltaX, float deltaY, double windowWidth, double windowHeight) {
+        if (focused != nullptr) {
+            if (focused->canMoveFurther(deltaX, deltaY, windowWidth, windowHeight)) {
+                focused->moveBy(deltaX, deltaY);
+            }
+        }
+    }
+
 }// namespace qttest
