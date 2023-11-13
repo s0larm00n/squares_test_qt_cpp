@@ -1,5 +1,5 @@
 # Square dragging demo app
-This is a simple 2D graphics showcase project written in C++ using QT framework. There are 2 targets: iOS & macOS.
+This is a simple 2D graphics showcase project written in C++ using QT framework. Tested on iOS, macOS, Windows and Android.
 
 After app launches, you will see an empty screen. Tapping or clicking at empty space at the app window at any time will cause a square creation. There is no square deletion functionality in this app. There is no limit of how many squares can be created.
 
